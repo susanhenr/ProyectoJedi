@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="susanhenr.com.proyectojedi.Calculadora">
+    <item android:id="@+id/action_llamada" android:title="@string/action_llamada"
+        android:orderInCategory="100" app:showAsAction="collapseActionView" />
+    <item android:id="@+id/action_modonotificaciones" android:title="@string/action_modonotificaciones"
+        android:orderInCategory="100" app:showAsAction="collapseActionView" >
+        <menu>
+            <item android:id="@+id/action_toast" android:title="@string/action_toast"
+                android:orderInCategory="100" app:showAsAction="never" />
+
+            <item android:id="@+id/action_deestado" android:title="@string/action_deestado"
+                android:orderInCategory="100" app:showAsAction="never" />
+        </menu>
+    </item>
+    <item android:id="@+id/action_navegador" android:title="@string/action_navegador"
+        android:orderInCategory="100" app:showAsAction="collapseActionView" />
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" app:showAsAction="collapseActionView" />
+    <item android:id="@+id/action_logout" android:title="@string/action_logout"
+        android:orderInCategory="100" app:showAsAction="collapseActionView" />
+
+    <item android:id="@+id/action_info" android:title="@string/action_info"
+        android:orderInCategory="100" app:showAsAction="ifRoom" android:icon="@android:drawable/ic_dialog_info"/>
+</menu>
