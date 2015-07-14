@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 /**
  * Created by susanhenriquez on 3/7/15.
  */
@@ -61,17 +63,21 @@ public class IntentsOpenHelper extends SQLiteOpenHelper{
                 null                                        // The sort order
         );
         return c;
-        //Cursor c = db.query("SELECT * FROM login WHERE usuario = ('" + usuario + "') AND contrasena = ('" + contraseña + "')");
 
     }
 
    public void ingresapuntuacion (String usuario, Integer puntuacion, SQLiteDatabase db){
-        db.execSQL("INSERT INTO ranking (usuario,puntuacion) VALUES('" +
+       db.execSQL("INSERT INTO ranking (usuario,puntuacion) VALUES('" +
                 usuario + "','" + puntuacion + "');");
         db.close();
     }
-    public Cursor getpuntuacion(String usuario, SQLiteDatabase db) {
 
+    //Esta funcion me da error:
+    //      Caused by: android.database.sqlite.SQLiteException: no such table: ranking (code 1): , while compiling: SELECT usuario, puntuacion FROM ranking WHERE usuario=?
+
+
+    public Cursor getpuntuacion(String usuario, SQLiteDatabase db) {
+/*
         String[] columns = {"usuario","puntuacion"};
         String[] where = {usuario};
         Cursor c = db.query(
@@ -83,7 +89,57 @@ public class IntentsOpenHelper extends SQLiteOpenHelper{
                 null,                                       // don't filter by row groups
                 null                                        // The sort order
         );
-        return c;
+        return c;*/
+        return null;
     }
 
+
+    //FUNCIONES PARA RANKING
+
+    public Cursor obtenranking(SQLiteDatabase db) {
+        String[] columns = {"usuario","puntuacion"};
+      //  String[] where = {};
+/*        Cursor c = db.query(
+                STATISTICS_TABLE_NAME_RANKING,  // The table to query
+                columns,                                    // The columns to return
+                null,                                   // The columns for the WHERE clause
+                null,                                      // The values for the WHERE clause
+                null,                                       // don't group the rows
+                null,                                       // don't filter by row groups
+                null                                        // The sort order
+        );*/
+
+        //ERROR!!!!
+        Cursor c = this.getReadableDatabase().rawQuery(
+                "SELECT * FROM ranking" , null);
+        db.close();
+        return c;
+
+    }
+    public ArrayList<Jugador> getranking( IntentsOpenHelper ioh) {
+        ArrayList<Jugador> resultado = null;
+
+        String columnas[] = {"usuario", "puntuacion"};
+        SQLiteDatabase db = ioh.getWritableDatabase();
+        if (db != null) {
+            Cursor c = ioh.obtenranking(db);
+            // if(c.moveToFirst()){
+            int nom, punt;// indices para las columnas
+// se obtiene el índice de cada columna
+            nom = c.getColumnIndex("usuario");
+            punt = c.getColumnIndex("puntuacion");
+            String[] s;
+            for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                s = new String[]{c.getString(nom), c.getString(punt)};
+                Jugador j = new Jugador();
+                j.setNombre(c.getString(nom));
+                j.setPuntuacion(c.getString(punt));
+                resultado.add(j);
+            }
+            c.close();
+
+
+        }
+        return resultado;
+    }
 }

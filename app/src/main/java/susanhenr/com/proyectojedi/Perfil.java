@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.GpsStatus;
@@ -58,19 +60,31 @@ String h;
             Log.v("OCC", "Hide");
         }
 
-        //obtener mejor puntuacion
         TextView textusu = (TextView) findViewById(R.id.textView5);
         TextView textpunt = (TextView) findViewById(R.id.textView9);
-        //IntentsOpenHelper ioh = new IntentsOpenHelper(getApplicationContext());
-        //SQLiteDatabase db = ioh.getWritableDatabase();
-        //if(db != null) {
-            //boolean result = false;
-            //Cursor c = ioh.getpuntuacion(textusu.toString(), db);
-            //if (c.moveToFirst()) {
-              //  String punt = c.getString(c.getColumnIndex("puntuacion"));
-                //textpunt.setText(punt);
-            //}
-        //
+        SharedPreferences sp  = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        String u = sp.getString("usuariologin","");
+        textusu.setText(u);
+        //CÓDIGO PARA OBTENER LA MEJOR PUNTUACIÓN
+        //Busco en la base de datos el usuario que tengo en login y obtengo su puntuación
+
+
+
+        IntentsOpenHelper ioh = new IntentsOpenHelper(getApplicationContext());
+        SQLiteDatabase db = ioh.getWritableDatabase();
+        if(db != null) {
+            boolean result = false;
+            //ERROR EN ESTA LINEA.
+            //     Caused by: android.database.sqlite.SQLiteException: no such table: ranking (code 1): , while compiling: SELECT usuario, puntuacion FROM ranking WHERE usuario=?
+
+            Cursor c = ioh.getpuntuacion(textusu.toString(), db);
+            if (c.moveToFirst()) {
+                String punt = c.getString(c.getColumnIndex("puntuacion"));
+                textpunt.setText(punt);
+            }
+        }
+
+        //CÓDIGO GPS
         lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         lis = new LocationListener() {
 
@@ -128,7 +142,6 @@ String h;
 
         img.setImageURI(Uri.parse(uris));
 
-      //  Log.v("resultadoOnRestoreUs", savedInstanceState.getString("usuario"));
 
 
     }
@@ -139,7 +152,6 @@ String h;
       Uri s = selectedImageUri;
         outState.putString("img", s + "");
 
-//        Log.v("resultadoOnSaveUs", s.toString());
         super.onSaveInstanceState(outState);
     }
 
@@ -174,6 +186,9 @@ String h;
                 break;
         }
     }
+
+    //CÓDIGO PARA SELECCIÓN DE LA FOTO
+    //SE PUEDE INGRESAR A LA OPCIÓN DE IMPORTAR FOTO DESDE LA CÁMARA PERO NO GUARDA LA IMAGEN. ( ERA OPCIONAL)
 
     private void selectImage() {
         img = (ImageView)findViewById(R.id.imageView);
@@ -210,7 +225,6 @@ String h;
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                  selectedImageUri = data.getData();
-              //  selectedImageUriGuardar = selectedImageUri;
                 selectedImagePath = getPath(selectedImageUri);
                 System.out.println("Image Path : " + selectedImagePath);
                 img.setImageURI(selectedImageUri);

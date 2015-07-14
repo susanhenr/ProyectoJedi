@@ -2,7 +2,9 @@ package susanhenr.com.proyectojedi;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -22,6 +24,17 @@ public class Login extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         Button button = (Button) findViewById(R.id.button20);
         button.setOnClickListener(this);
+        //Código SharedPreferences para PERMANENCIA DEL LOGIN
+        //En caso de que el booleano que se guarda en el Shared Preference sea true (Ya hizo login)
+        //te manda directamente al "menú principal" **NO FUNCIONA**
+        SharedPreferences sp  = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        boolean b = false;
+        b= sp.getBoolean("estalogin",b);
+        if(b){
+            Intent intent2 = new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent2);
+        }
+
     }
 
     @Override
@@ -59,7 +72,7 @@ public class Login extends Activity implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
     }
-
+//CÓDIGO PARA PERSISTENCIA AL GIRAR LA PANTALLA
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -100,6 +113,7 @@ public class Login extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            //CÓDIGO PARA HACER LOGIN
             case R.id.button20:
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 Bundle b = new Bundle();
@@ -116,13 +130,24 @@ public class Login extends Activity implements View.OnClickListener {
                 if(db != null){
                     Cursor c = ioh.login(usuario,contraseña,db);
                     if(c.moveToFirst()){
-                        Log.v("teodio",usuario);
+                        //AQUÍ ENTRO SI EXISTE UN USUARIO CON ESE NOMBRE
                         String con = c.getString( c.getColumnIndex("contraseña") );
                        if(con.equals(contraseña) ) {
+                           //AQUÍ ENTRO SI TODO ES CORRECTO Y PUEDO HACER LOGIN
+
+                           //CÓDIGO PARA PERSISTENCIA DEL LOGIN
+                           //Si puedo hacer login indico en mi variable del SharedPreference que es true
+
+                           SharedPreferences sp  = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                           SharedPreferences.Editor editor= sp.edit();
+                           editor.putBoolean("estalogin",true);
+                           //Guardo el usuario
+                           editor.putString("usuariologin",usuario);
+
+
                            startActivity(intent);
                        }
                         else {
-                           Log.v("teodio",c.getColumnIndex("contraseña") +"");
                            AlertDialog alertDialog;
                            alertDialog = new AlertDialog.Builder(this).create();
                            alertDialog.setTitle("Mensaje");

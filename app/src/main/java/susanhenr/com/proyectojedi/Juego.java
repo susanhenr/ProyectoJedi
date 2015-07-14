@@ -77,12 +77,15 @@ public class Juego extends ActionBarActivity implements View.OnClickListener{
 
     int random;
     int i;
+    int j;
     TextView puntuacion;
     int x;
     int y;
 
     boolean bx;
     boolean by;
+    boolean ok = false;
+    boolean finish = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,189 +124,466 @@ public class Juego extends ActionBarActivity implements View.OnClickListener{
 
 
         puntuacion = (TextView) findViewById(R.id.textView13);
-
-        for(i = 1; i<= 16; ++i){
+        finish = todoacabo();
+        for(i = 1; i<= 8; ++i){
+            Log.v("asigno casilla:",i + "");
             random = (int) Math.floor(Math.random()*(1-16+1)+16);
-            boolean ok = todocorrecto(random,i);
-            while(!ok){
+            Log.v("Random?:",random + "");
+            ok = todocorrecto(random,i);
+
+            Log.v("Todo ok?:",ok + "");
+            while(ok== false){
                 random = (int) Math.floor(Math.random()*(1-16+1)+16);
                 ok = todocorrecto(random,i);
+                Log.v("Todo ok? Segunda:",ok + "");
             }
 
         }
+        for(j = 1; j<= 8; ++j){
+            Log.v("asigno casilla:",j + "");
+            random = (int) Math.floor(Math.random()*(1-16+1)+16);
+            Log.v("Random?:",random + "");
+            ok = todocorrecto(random,j);
 
+            Log.v("Todo ok?:",ok + "");
+            finish = todoacabo();
+            while(ok == false){
+                if(finish == false) ok = true;
+                Log.v("Finish? Segunda:",finish + "");
+                random = (int) Math.floor(Math.random()*(1-16+1)+16);
+                ok = todocorrecto(random,j);
+                Log.v("Todo ok? Segunda:",ok + "");
+                finish = todoacabo();
+            }
+
+        }
+      /*  for(j = 1; j<= 8; ++j){
+            Log.v("2asigno casilla:",j + "");
+            random = (int) Math.floor(Math.random()*(1-16+1)+16);
+            Log.v("2Random?:",random + "");
+            ok = todocorrecto(random,j);
+
+            Log.v("2Todo ok?:",ok + "");
+          //  while(ok== false){
+                Log.v("Casilla 1: ",id1 +"");
+                Log.v("Casilla 2: ",id2 +"");
+                Log.v("Casilla 3: ",id3 +"");
+                Log.v("Casilla 4: ",id4 +"");
+                Log.v("Casilla 5: ",id5 +"");
+                Log.v("Casilla 6: ",id6 +"");
+                Log.v("Casilla 7: ",id7 +"");
+                Log.v("Casilla 8: ",id8 +"");
+                Log.v("Casilla 9: ",id9 +"");
+                Log.v("Casilla 10: ",id10 +"");
+                Log.v("Casilla 11: ",id11+"");
+                Log.v("Casilla 12: ",id12 +"");
+                Log.v("Casilla 13: ",id13 +"");
+                Log.v("Casilla 14: ",id14 +"");
+                Log.v("Casilla 15: ",id15 +"");
+                Log.v("Casilla 16: ",id16 +"");
+                random = (int) Math.floor(Math.random()*(1-16+1)+16);
+                ok = todocorrecto(random,j);
+                Log.v("2Todo ok? Segunda:",ok + "");
+           // }
+
+        }*/
+
+        /*for(i = 1; i<=8; ++i){
+            Log.v("2asigno casilla:",j + "");
+            random = (int) Math.floor(Math.random()*(1-16+1)+16);
+            Log.v("2Random?:",random + "");
+            ok = todocorrecto(random,j);
+            Log.v("2Todo ok?:",ok + "");
+            while(ok== false){
+                random = (int) Math.floor(Math.random()*(1-16+1)+16);
+                ok = todocorrecto(random,j);
+                Log.v("2Todo ok? Segunda:",ok + "");
+            }
+        }
+        */
+
+            Log.v("Casilla 1: ",id1 +"");
+        Log.v("Casilla 2: ",id2 +"");
+        Log.v("Casilla 3: ",id3 +"");
+        Log.v("Casilla 4: ",id4 +"");
+        Log.v("Casilla 5: ",id5 +"");
+        Log.v("Casilla 6: ",id6 +"");
+        Log.v("Casilla 7: ",id7 +"");
+        Log.v("Casilla 8: ",id8 +"");
+        Log.v("Casilla 9: ",id9 +"");
+        Log.v("Casilla 10: ",id10 +"");
+        Log.v("Casilla 11: ",id11+"");
+        Log.v("Casilla 12: ",id12 +"");
+        Log.v("Casilla 13: ",id13 +"");
+        Log.v("Casilla 14: ",id14 +"");
+        Log.v("Casilla 15: ",id15 +"");
+        Log.v("Casilla 16: ",id16 +"");
+
+
+
+
+    }
+
+    private boolean todoacabo() {
+        boolean resultado = true;
+        if( id1 == -1)  resultado = false;
+        else if( id2 == -1)  resultado = false;
+        else if( id3 == -1)  resultado = false;
+        else if( id4 == -1)  resultado = false;
+        else if( id5 == -1)  resultado = false;
+        else if( id6 == -1)  resultado = false;
+        else if( id7 == -1)  resultado = false;
+        else if( id8 == -1)  resultado = false;
+        else if( id9 == -1)  resultado = false;
+        else if( id10 == -1)  resultado = false;
+        else if( id11 == -1)  resultado = false;
+        else if( id12 == -1)  resultado = false;
+        else if( id13 == -1)  resultado = false;
+        else if( id14 == -1)  resultado = false;
+        else if( id15 == -1)  resultado = false;
+        else if( id16 == -1)  resultado = false;
+        return resultado;
 
     }
 
     private boolean todocorrecto(int random, int i){
         if(random == 1){
-            if(!bo1){
-                Context context = b1.getContext();
-                int id= obtenerid(i,context);
-                b1.setImageResource(id);
+            if(bo1 == false){
                 id1 = i;
-              /*  if(i == 1){
-                    Context context = b1.getContext();
-                    int id = context.getResources().getIdentifier(uriuno, "drawable",
-                            context.getPackageName());
-                    b1.setImageResource(id);
-                }
-                else if(i==2){
+                bo1 = true;
 
-                }*/
+                return true;
             }
             else return false;
         }
         else if (random == 2){
-            if(!bo2){
-                Context context = b2.getContext();
-                int id= obtenerid(i,context);
-                b2.setImageResource(id);
-                id2 = i;
+            if(bo2 == false){
 
+                id2 = i;
+                bo2 = true;
+                return true;
             }
             else return false;
 
         }
         else if (random == 3){
-            if(!bo3){
-                Context context = b3.getContext();
-                int id= obtenerid(i,context);
-                b3.setImageResource(id);
+            if(bo3== false){
+
                 id3 = i;
+                bo3 = true;
+                return true;
 
             }
             else return false;
 
         }
         else if (random == 4){
-            if(!bo4){
-                Context context = b4.getContext();
-                int id= obtenerid(i,context);
-                b4.setImageResource(id);
-                id4 = i;
+            if(bo4== false){
 
+                id4 = i;
+                bo4 = true;
+                return true;
             }
             else return false;
 
         }
         else if (random == 5){
-            if(!bo5){
-                Context context = b5.getContext();
-                int id= obtenerid(i,context);
-                b5.setImageResource(id);
+            if(bo5== false){
+
                 id5 = i;
+                bo5 = true;
+                return true;
             }
             else return false;
 
         }
         else if (random == 6){
-            if(!bo6){
-                Context context = b6.getContext();
-                int id= obtenerid(i,context);
-                b6.setImageResource(id);
+            if(bo6== false){
                 id6 = i;
+                bo6 = true;
+                return true;
             }
             else return false;
 
         }
         else if (random == 7){
-            if(!bo7){
-                Context context = b7.getContext();
-                int id= obtenerid(i,context);
-                b7.setImageResource(id);
+            if(bo7== false){
                 id7 = i;
+                bo7 = true;
+                return true;
             }
             else return false;
 
         }
         else if (random == 8){
-            if(!bo8){
-                Context context = b8.getContext();
-                int id= obtenerid(i,context);
-                b8.setImageResource(id);
+            if(bo8== false){
                 id8 = i;
+                bo8 = true;
+                return true;
             }
             else return false;
 
         }
         else if (random == 9){
-            if(!bo9){
-                Context context = b9.getContext();
-                int id= obtenerid(i,context);
-                b9.setImageResource(id);
+            if(bo9== false){
                 id9 = i;
+                bo9 = true;
+                return true;
             }
             else return false;
         }
         else if (random == 10){
-            if(!bo10){
-                Context context = b10.getContext();
-                int id= obtenerid(i,context);
-                b10.setImageResource(id);
+            if(bo10== false){
                 id10 = i;
+                bo10 = true;
+                return true;
             }
             else return false;
 
         }
         else if (random == 11){
-            if(!bo11){
-                Context context = b11.getContext();
-                int id= obtenerid(i,context);
-                b11.setImageResource(id);
+            if(bo11== false){
                 id11 = i;
+                bo11 = true;
+                return true;
             }
             else return false;
 
         }
         else if (random == 12){
-            if(!bo12){
-                Context context = b12.getContext();
-                int id= obtenerid(i,context);
-                b12.setImageResource(id);
+            if(bo12== false){
                 id12 = i;
+                bo12 = true;
+                return true;
             }
             else return false;
 
         }
         else if (random == 13){
-            if(!bo13){
-                Context context = b13.getContext();
-                int id= obtenerid(i,context);
-                b13.setImageResource(id);
+            if(bo13== false){
                 id13 = i;
+                bo13 = true;
+                return true;
             }
             else return false;
         }
         else if (random == 14){
-            if(!bo14){
-                Context context = b14.getContext();
-                int id= obtenerid(i,context);
-                b14.setImageResource(id);
+            if(bo14== false){
                 id14 = i;
+                bo14 = true;
+                return true;
             }
             else return false;
         }
         else if (random == 15){
-            if(!bo15){
-                Context context = b15.getContext();
-                int id= obtenerid(i,context);
-                b15.setImageResource(id);
+            if(bo15== false){
                 id15 = i;
+                bo15 = true;
+                return true;
             }
             else return false;
         }
         else if (random == 16){
-            if(!bo16){
-                Context context = b16.getContext();
-                int id= obtenerid(i,context);
-                b16.setImageResource(id);
+            if(bo16== false){
                 id16 = i;
+                bo16 = true;
+                return true;
             }
             else return false;
         }
         return false;
     }
+    /*private boolean todocorrecto(int random, int i){
+        if(random == 1){
+            if(bo1 == false){
+                Context context = b1.getContext();
+                int id= obtenerid(i,context);
+                b1.setImageResource(id);
+                id1 = i;
+                bo1 = true;
+
+                return true;
+            }
+            else return false;
+        }
+        else if (random == 2){
+            if(bo2 == false){
+                Context context = b2.getContext();
+                int id= obtenerid(i,context);
+                b2.setImageResource(id);
+                id2 = i;
+                bo2 = true;
+                return true;
+            }
+            else return false;
+
+        }
+        else if (random == 3){
+            if(bo3== false){
+                Context context = b3.getContext();
+                int id= obtenerid(i,context);
+                b3.setImageResource(id);
+                id3 = i;
+                bo3 = true;
+                return true;
+
+            }
+            else return false;
+
+        }
+        else if (random == 4){
+            if(bo4== false){
+                Context context = b4.getContext();
+                int id= obtenerid(i,context);
+                b4.setImageResource(id);
+                id4 = i;
+                bo4 = true;
+                return true;
+            }
+            else return false;
+
+        }
+        else if (random == 5){
+            if(bo5== false){
+                Context context = b5.getContext();
+                int id= obtenerid(i,context);
+                b5.setImageResource(id);
+                id5 = i;
+                bo5 = true;
+                return true;
+            }
+            else return false;
+
+        }
+        else if (random == 6){
+            if(bo6== false){
+                Context context = b6.getContext();
+                int id= obtenerid(i,context);
+                b6.setImageResource(id);
+                id6 = i;
+                bo6 = true;
+                return true;
+            }
+            else return false;
+
+        }
+        else if (random == 7){
+            if(bo7== false){
+                Context context = b7.getContext();
+                int id= obtenerid(i,context);
+                b7.setImageResource(id);
+                id7 = i;
+                bo7 = true;
+                return true;
+            }
+            else return false;
+
+        }
+        else if (random == 8){
+            if(bo8== false){
+                Context context = b8.getContext();
+                int id= obtenerid(i,context);
+                b8.setImageResource(id);
+                id8 = i;
+                bo8 = true;
+                return true;
+            }
+            else return false;
+
+        }
+        else if (random == 9){
+            if(bo9== false){
+                Context context = b9.getContext();
+                int id= obtenerid(i,context);
+                b9.setImageResource(id);
+                id9 = i;
+                bo9 = true;
+                return true;
+            }
+            else return false;
+        }
+        else if (random == 10){
+            if(bo10== false){
+                Context context = b10.getContext();
+                int id= obtenerid(i,context);
+                b10.setImageResource(id);
+                id10 = i;
+                bo10 = true;
+                return true;
+            }
+            else return false;
+
+        }
+        else if (random == 11){
+            if(bo11== false){
+                Context context = b11.getContext();
+                int id= obtenerid(i,context);
+                b11.setImageResource(id);
+                id11 = i;
+                bo11 = true;
+                return true;
+            }
+            else return false;
+
+        }
+        else if (random == 12){
+            if(bo12== false){
+                Context context = b12.getContext();
+                int id= obtenerid(i,context);
+                b12.setImageResource(id);
+                id12 = i;
+                bo12 = true;
+                return true;
+            }
+            else return false;
+
+        }
+        else if (random == 13){
+            if(bo13== false){
+                Context context = b13.getContext();
+                int id= obtenerid(i,context);
+                b13.setImageResource(id);
+                id13 = i;
+                bo13 = true;
+                return true;
+            }
+            else return false;
+        }
+        else if (random == 14){
+            if(bo14== false){
+                Context context = b14.getContext();
+                int id= obtenerid(i,context);
+                b14.setImageResource(id);
+                id14 = i;
+                bo14 = true;
+                return true;
+            }
+            else return false;
+        }
+        else if (random == 15){
+            if(bo15== false){
+                Context context = b15.getContext();
+                int id= obtenerid(i,context);
+                b15.setImageResource(id);
+                id15 = i;
+                bo15 = true;
+                return true;
+            }
+            else return false;
+        }
+        else if (random == 16){
+            if(bo16== false){
+                Context context = b16.getContext();
+                int id= obtenerid(i,context);
+                b16.setImageResource(id);
+                id16 = i;
+                bo16 = true;
+                return true;
+            }
+            else return false;
+        }
+        return false;
+    }*/
 
     private int obtenerid(int i, Context context) {
         int id = -1;
