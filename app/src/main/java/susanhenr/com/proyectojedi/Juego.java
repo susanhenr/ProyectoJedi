@@ -148,12 +148,12 @@ public class Juego extends ActionBarActivity implements View.OnClickListener{
             Log.v("Todo ok?:",ok + "");
             finish = todoacabo();
             while(ok == false){
-                if(finish == false) ok = true;
+                finish = todoacabo();
+                if(finish == true) ok = true;
                 Log.v("Finish? Segunda:",finish + "");
                 random = (int) Math.floor(Math.random()*(1-16+1)+16);
                 ok = todocorrecto(random,j);
                 Log.v("Todo ok? Segunda:",ok + "");
-                finish = todoacabo();
             }
 
         }

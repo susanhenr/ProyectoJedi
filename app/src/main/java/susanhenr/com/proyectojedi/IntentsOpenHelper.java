@@ -99,7 +99,7 @@ public class IntentsOpenHelper extends SQLiteOpenHelper{
     public Cursor obtenranking(SQLiteDatabase db) {
         String[] columns = {"usuario","puntuacion"};
       //  String[] where = {};
-/*        Cursor c = db.query(
+       Cursor c = db.query(
                 STATISTICS_TABLE_NAME_RANKING,  // The table to query
                 columns,                                    // The columns to return
                 null,                                   // The columns for the WHERE clause
@@ -107,12 +107,12 @@ public class IntentsOpenHelper extends SQLiteOpenHelper{
                 null,                                       // don't group the rows
                 null,                                       // don't filter by row groups
                 null                                        // The sort order
-        );*/
+        );
 
         //ERROR!!!!
-        Cursor c = this.getReadableDatabase().rawQuery(
-                "SELECT * FROM ranking" , null);
-        db.close();
+       // Cursor c = this.getReadableDatabase().rawQuery(
+          //      "SELECT * FROM ranking" , null);
+
         return c;
 
     }
@@ -130,10 +130,10 @@ public class IntentsOpenHelper extends SQLiteOpenHelper{
             punt = c.getColumnIndex("puntuacion");
             String[] s;
             for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-                s = new String[]{c.getString(nom), c.getString(punt)};
                 Jugador j = new Jugador();
                 j.setNombre(c.getString(nom));
-                j.setPuntuacion(c.getString(punt));
+               int x = c.getInt(punt);
+                j.setPuntuacion(x);
                 resultado.add(j);
             }
             c.close();

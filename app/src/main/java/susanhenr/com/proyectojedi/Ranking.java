@@ -33,9 +33,13 @@ public class Ranking extends ActionBarActivity {
         //Asignamos el LinearLayoutManager al recycler:
         mRecyclerView.setLayoutManager(mLinearLayout);
         IntentsOpenHelper ioh = new IntentsOpenHelper(getApplicationContext());
+        //ERROR
+        // Caused by: android.database.sqlite.SQLiteException: no such table: ranking (code 1): , while compiling: SELECT usuario, puntuacion FROM ranking
 
 
-        mRecyclerView.setAdapter(new MyCustomAdapter(ioh.getranking(ioh)));
+        // ArrayList<Jugador> resultado = ioh.getranking(ioh);
+       // mRecyclerView.setAdapter(new MyCustomAdapter(resultado));
+        mRecyclerView.setAdapter(new MyCustomAdapter());
 
 
 

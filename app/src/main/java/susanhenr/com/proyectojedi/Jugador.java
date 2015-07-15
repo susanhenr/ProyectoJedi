@@ -6,9 +6,9 @@ package susanhenr.com.proyectojedi;
 public class Jugador {
 
     private String nombre;
-    private String puntuacion;
+    private int puntuacion;
 
-    Jugador( String nombre, String puntuacion){
+    Jugador( String nombre, int puntuacion){
 
         this.nombre = nombre;
         this.puntuacion = puntuacion;
@@ -28,11 +28,11 @@ public class Jugador {
         this.nombre = name;
     }
 
-    public String getPuntuacion() {
+    public int getPuntuacion() {
         return puntuacion;
     }
 
-    public void setPuntuacion(String puntuacion) {
+    public void setPuntuacion(int puntuacion) {
         this.puntuacion = puntuacion;
     }
 }

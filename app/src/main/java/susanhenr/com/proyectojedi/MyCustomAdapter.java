@@ -14,25 +14,17 @@ import java.util.ArrayList;
 public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.AdapterViewHolder> {
     ArrayList<Jugador> ranking;
 
-    MyCustomAdapter(ArrayList<Jugador> result){
-        ranking = result;
+   // MyCustomAdapter(ArrayList<Jugador> result){
+        //ERROR
+        //       Caused by: android.database.sqlite.SQLiteException: no such table: ranking (code 1): , while compiling: SELECT usuario, puntuacion FROM ranking
+        // ranking = result;
+   MyCustomAdapter(){
+        ranking = new ArrayList<>();
+        ranking.add(new Jugador("Susan",100));
 
-       /* String columnas[] = { "nombre", "puntuacion" };
-          IntentsOpenHelper ioh = new IntentsOpenHelper(getApplicationContext());
-            SQLiteDatabase db = ioh.getWritableDatabase();
-        if(db != null){
-                   Cursor c = ioh.obtenranking(db);
-            // if(c.moveToFirst()){
-            int nom, punt;// indices para las columnas
-// se obtiene el índice de cada columna
-            nom = c.getColumnIndex("nombre");
-            punt = c.getColumnIndex("puntuacion");
-            String[] s;
-            for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-                s = new String[]{c.getString(nom), c.getString(puntuacion)};
-                ranking.add(s);
-            }
-            c.close();*/
+        ranking.add(new Jugador("Frida",50));
+
+        ranking.add(new Jugador("Jake",40));
 
     }
 
@@ -50,7 +42,8 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.Adapte
     public void onBindViewHolder(MyCustomAdapter.AdapterViewHolder adapterViewholder, int position) {
 
         adapterViewholder.nombre.setText(ranking.get(position).getNombre());
-        adapterViewholder.puntuacion.setText(ranking.get(position).getPuntuacion());
+        int x = ranking.get(position).getPuntuacion();
+        adapterViewholder.puntuacion.setText(x + "");
 
     }
 
@@ -83,60 +76,5 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.Adapte
             this.puntuacion = (TextView) itemView.findViewById(R.id.textView16);
         }
     }
-    //ArrayList<Jugador> ranking;
 
-
-   /* MyCustomAdapter(){
-   //     ranking = new ArrayList<>();
-        String columnas[] = { "nombre", "puntuacion" };
-     //   IntentsOpenHelper ioh = new IntentsOpenHelper(getApplicationContext());
-   //     SQLiteDatabase db = ioh.getWritableDatabase();
-        if(db != null){
-    //        Cursor c = ioh.obtenranking(db);
-           // if(c.moveToFirst()){
-                int nom, punt;// indices para las columnas
-// se obtiene el índice de cada columna
-                nom = c.getColumnIndex("nombre");
-                punt = c.getColumnIndex("puntuacion");
-                String[] s;
-            for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-                s = new String[] { c.getString(nom), c.getString(puntuacion)};
-                ranking.add(s);
-            }
-            c.close();
-            //}
-
-    }
-
-    @Override
-    public MyCustomAdapter.AdapterViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        //Instancia un layout XML en la correspondiente vista.
-        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        //Inflamos en la vista el layout para cada elemento
-        View view = inflater.inflate(R.layout.rowlayout, viewGroup, false);
-        return new AdapterViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(MyCustomAdapter.AdapterViewHolder adapterViewHolder, int i) {
-
-    }
-
-    @Override
-    public int getItemCount() {
-         return ranking.size();
-
-    }
-
-    private class AdapterViewHolder {
-        public TextView name;
-        public TextView phone;
-        public View v;
-        public AdapterViewHolder(View itemView) {
-            super(itemView);
-            this.v = itemView;
-            this.name = (TextView) itemView.findViewById(R.id.name);
-            this.phone = (TextView) itemView.findViewById(R.id.phone);
-        }
-    }*/
 }

@@ -59,12 +59,15 @@ String h;
             if (a != null) a.show();
             Log.v("OCC", "Hide");
         }
+//  CÓDIGO PARA OBTENER USUARIO QUE HIZO LOGIN
 
         TextView textusu = (TextView) findViewById(R.id.textView5);
         TextView textpunt = (TextView) findViewById(R.id.textView9);
         SharedPreferences sp  = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         String u = sp.getString("usuariologin","");
+        Log.v("usuario",u);
         textusu.setText(u);
+
         //CÓDIGO PARA OBTENER LA MEJOR PUNTUACIÓN
         //Busco en la base de datos el usuario que tengo en login y obtengo su puntuación
 
@@ -74,13 +77,14 @@ String h;
         SQLiteDatabase db = ioh.getWritableDatabase();
         if(db != null) {
             boolean result = false;
-            //ERROR EN ESTA LINEA.
-            //     Caused by: android.database.sqlite.SQLiteException: no such table: ranking (code 1): , while compiling: SELECT usuario, puntuacion FROM ranking WHERE usuario=?
+
 
             Cursor c = ioh.getpuntuacion(textusu.toString(), db);
-            if (c.moveToFirst()) {
-                String punt = c.getString(c.getColumnIndex("puntuacion"));
-                textpunt.setText(punt);
+            if(c!=null && c.getCount()>0) {
+                if (c.moveToFirst()) {
+                    String punt = c.getString(c.getColumnIndex("puntuacion"));
+                    textpunt.setText(punt);
+                }
             }
         }
 
